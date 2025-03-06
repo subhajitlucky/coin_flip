@@ -33,14 +33,16 @@ function Coin({ onFlipResult }) {
             setSpinning(false);
             setSide(result);
             
-            // Notify the parent component about the result
-            if (onFlipResult) {
-                onFlipResult(result, prediction);
-            }
-            
-            // Reset prediction for next round
-            setPrediction(null);
-        }, 10000); // 10 seconds
+            // Notify the parent component about the result after state update
+            setTimeout(() => {
+                if (onFlipResult) {
+                    onFlipResult(result, prediction);
+                }
+                
+                // Reset prediction for next round
+                setPrediction(null);
+            },0); // Ensure state is updated before calling the callback
+        }, 10000); // 1 second
     }
     
     function makePrediction(choice) {
