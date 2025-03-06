@@ -337,6 +337,7 @@ nav a:hover::after {
   font-size: var(--font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  width: 100%;
 }
 
 .coin-game {
@@ -346,11 +347,9 @@ nav a:hover::after {
   justify-content: center;
 }
 
-/* Testimonials */
 .testimonials {
   background-color: var(--gray-100);
   padding: var(--space-4) 5%; /* Consistent with game section */
-  position: relative;
   width: 100%;
 }
 
