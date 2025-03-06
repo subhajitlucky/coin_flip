@@ -1,6 +1,5 @@
 /* Modern CSS Variables for Consistent Design System */
 :root {
-  /* Color Palette */
   --primary: #3a86ff;
   --primary-dark: #2667cc;
   --primary-light: #61a0ff;
@@ -317,57 +316,41 @@ nav a:hover::after {
 
 .stat-number {
   display: block;
-  font-size: var(--font-size-3xl);
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--primary);
-  margin-bottom: var(--space-1);
-  line-height: 1.2;
-}
-
-.win-stat .stat-number {
-  color: var(--success);
-}
-
-.lose-stat .stat-number {
-  color: var(--error);
+  color: var(--primary-color);
 }
 
 .stat-label {
-  color: var(--gray-600);
-  font-size: var(--font-size-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  width: 100%;
+  font-size: 0.9rem;
+  color: #868e96;
 }
 
-.coin-game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Testimonials section */
 .testimonials {
-  background-color: var(--gray-100);
   padding: var(--space-4) 5%; /* Consistent with game section */
   width: 100%;
+  background-color: #f1f3f5;
 }
 
 .testimonials h3 {
   text-align: center;
+  color: var(--primary-color);
+  margin-bottom: var(--space-4);
   font-size: var(--font-size-2xl);
-  color: var(--gray-800);
-  margin-bottom: var(--space-5);
   position: relative;
+  padding-bottom: var(--space-2);
 }
 
 .testimonials h3::after {
   content: "";
-  display: block;
-  width: 80px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
   height: 3px;
   background-color: var(--accent);
-  margin: var(--space-2) auto 0;
   border-radius: var(--radius-full);
 }
 
@@ -380,24 +363,12 @@ nav a:hover::after {
 }
 
 .testimonial {
-  background-color: var(--white);
-  padding: var(--space-5);
+  background-color: white;
+  padding: var(--space-4);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   transition: all var(--transition-normal);
   position: relative;
-}
-
-.testimonial::before {
-  content: "";
-  position: absolute;
-  top: var(--space-2);
-  left: var(--space-3);
-  font-size: 5rem;
-  color: var(--gray-200);
-  line-height: 1;
-  font-family: serif;
-  z-index: 0;
 }
 
 .testimonial:hover {
@@ -408,61 +379,44 @@ nav a:hover::after {
 .testimonial p {
   font-style: italic;
   margin-bottom: var(--space-3);
-  position: relative;
-  z-index: 1;
 }
 
 .author {
-  color: var(--primary);
-  font-weight: 600;
   display: block;
   text-align: right;
+  font-weight: 600;
+  color: var(--primary-color);
 }
 
-/* Footer */
+/* Footer styles */
 footer {
-  background-color: var(--dark);
-  color: var(--white);
+  background-color: var(--dark-bg);
+  color: var(--text-light);
   padding: var(--space-5) var(--space-3);
   text-align: center;
   margin-top: auto;
 }
 
-footer p {
-  margin-bottom: var(--space-3);
-  opacity: 0.8;
-}
-
 .footer-links {
+  margin-top: var(--space-3);
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   gap: var(--space-4);
-  margin-top: var(--space-4);
 }
 
 .footer-links a {
-  color: var(--gray-400);
-  transition: color var(--transition-normal);
-  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity var(--transition-normal);
 }
 
 .footer-links a:hover {
-  color: var(--accent);
+  opacity: 1;
   text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 968px) {
-  .hero-section h2 {
-    font-size: var(--font-size-3xl);
-  }
-  
-  .tagline {
-    font-size: var(--font-size-lg);
-  }
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
