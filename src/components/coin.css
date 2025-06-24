@@ -19,6 +19,25 @@
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #f0f0f0, #d0d0d0);
+    border: 6px solid var(--accent);
+  }
+
+  /* Loading state for coin */
+  .coin.loading {
+    background: linear-gradient(45deg, #f0f0f0, #e0e0e0, #f0f0f0);
+    background-size: 200% 200%;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% -200%; }
+    50% { background-position: 200% 200%; }
+    100% { background-position: -200% -200%; }
   }
   
   .coin-image {
@@ -26,9 +45,27 @@
     height: 100%;
     border-radius: 50%;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    object-fit: contain;
-    background: radial-gradient(circle at 30% 30%, #f0f0f0, #d0d0d0);
-    border: 6px solid var(--accent);
+    object-fit: cover; /* Better than contain for performance */
+    object-position: center;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Loading fallback styles */
+  .coin-loading {
+    font-size: 3rem;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .coin-fallback {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
   }
   
   /* Animation for coin spinning */
@@ -125,6 +162,13 @@
     cursor: not-allowed;
     transform: none;
   }
+
+  /* Shake animation for better UX feedback */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
   
   /* Flip button */
   .flip-button {
@@ -142,6 +186,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 0 darken(var(--success), 10%);
+    min-width: 120px; /* Prevent layout shift during loading */
   }
   
   .flip-button:hover:not(:disabled) {

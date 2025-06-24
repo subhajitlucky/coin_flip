@@ -25,9 +25,9 @@ function App() {
         </div>
         <nav>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Leaderboard</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="#game">Game</a></li>
+            <li><a href="#stats">Stats</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
           </ul>
         </nav>
       </header>
@@ -38,7 +38,7 @@ function App() {
           <p className="tagline">Are you feeling lucky today? Can you predict the future?</p>
         </section>
 
-        <section className="game-section">
+        <section id="game" className="game-section">
           <div className="game-instructions">
             <h3>How to Play</h3>
             <ol>
@@ -47,7 +47,7 @@ function App() {
               <li>Wait for the coin to stop spinning</li>
               <li>See if your prediction was correct!</li>
             </ol>
-            <div className="stats-container">
+            <div id="stats" className="stats-container">
               <div className="stat-box">
                 <span className="stat-number">{flips}</span>
                 <span className="stat-label">Total Flips</span>
@@ -72,7 +72,7 @@ function App() {
           </div>
         </section>
         
-        <section className="testimonials">
+        <section id="testimonials" className="testimonials">
           <h3>What Players Say</h3>
           <div className="testimonial-grid">
             <div className="testimonial">
