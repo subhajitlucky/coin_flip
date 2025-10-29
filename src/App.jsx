@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useLocalStorage } from './hooks/useLocalStorage';
 import Coin from './components/coin';
 import './App.css';
 
 function App() {
-  const [flips, setFlips] = useState(0);
-  const [wins, setWins] = useState(0);
+  const [flips, setFlips] = useLocalStorage('flipmaster:flips', 0);
+  const [wins, setWins] = useLocalStorage('flipmaster:wins', 0);
   
   const handleFlipResult = (result, prediction) => {
     setFlips(flips + 1);
@@ -64,6 +64,18 @@ function App() {
                 <span className="stat-number">{flips > 0 ? Math.round((wins/flips)*100) : 0}%</span>
                 <span className="stat-label">Win Rate</span>
               </div>
+              {flips > 0 && (
+                <button
+                  className="reset-stats-btn"
+                  onClick={() => {
+                    setFlips(0);
+                    setWins(0);
+                  }}
+                  aria-label="Reset statistics"
+                >
+                  Reset Stats
+                </button>
+              )}
             </div>
           </div>
           

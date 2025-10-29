@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import './coin.css';
 
 // Sound effects using Web Audio API
@@ -79,8 +80,9 @@ function Coin({ onFlipResult }) {
     const [displayedSide, setDisplayedSide] = useState("heads");
     const [prediction, setPrediction] = useState(null);
     const [imagesLoaded, setImagesLoaded] = useState(false);
-    const [imageError, setImageError] = useState(false);
-    const [supportsWebP, setSupportsWebP] = useState(false);
+    const [imageError, setImageError] = useLocalStorage('flipmaster:imageError', false);
+    const [supportsWebP, setSupportsWebP] = useLocalStorage('flipmaster:supportsWebP', null);
+    const [soundEnabled, setSoundEnabled] = useLocalStorage('flipmaster:soundEnabled', true);
     const spinningSoundRef = useRef(null);
 
     // Check WebP support
@@ -161,19 +163,25 @@ function Coin({ onFlipResult }) {
             return;
         }
 
-        // Play click sound
-        SoundManager.playClickSound();
+        // Play click sound if enabled
+        if (soundEnabled) {
+            SoundManager.playClickSound();
+        }
 
-        // Play spinning sound effect
-        spinningSoundRef.current = SoundManager.playSpinningSound();
+        // Play spinning sound effect if enabled
+        if (soundEnabled) {
+            spinningSoundRef.current = SoundManager.playSpinningSound();
+        }
 
         setSpinning(true);
         setTimeout(() => {
             const result = Math.random() > 0.5 ? "heads" : "tails";
             setSpinning(false);
 
-            // Play landing sound effect
-            SoundManager.playLandingSound();
+            // Play landing sound effect if enabled
+            if (soundEnabled) {
+                SoundManager.playLandingSound();
+            }
 
             setSide(result);
 
@@ -188,9 +196,11 @@ function Coin({ onFlipResult }) {
             }, 100); // Small delay to ensure smooth state update
         }, 2000); // 2 seconds - much better UX!
     }
-    
+
     function makePrediction(choice) {
-        SoundManager.playClickSound();
+        if (soundEnabled) {
+            SoundManager.playClickSound();
+        }
         setPrediction(choice);
         setSide(choice);
     }
@@ -223,19 +233,29 @@ function Coin({ onFlipResult }) {
         <div className="coin-game">
             <h1>Heads or Tails?</h1>
             <div className="prediction-buttons">
-                <button 
-                    onClick={() => makePrediction("heads")} 
+                <button
+                    onClick={() => makePrediction("heads")}
                     className={prediction === "heads" ? "selected" : ""}
                     disabled={spinning || !imagesLoaded}
                 >
                     Heads
                 </button>
-                <button 
-                    onClick={() => makePrediction("tails")} 
+                <button
+                    onClick={() => makePrediction("tails")}
                     className={prediction === "tails" ? "selected" : ""}
                     disabled={spinning || !imagesLoaded}
                 >
                     Tails
+                </button>
+            </div>
+            <div className="settings-controls">
+                <button
+                    onClick={() => setSoundEnabled(!soundEnabled)}
+                    className="sound-toggle"
+                    aria-label={soundEnabled ? "Disable sound" : "Enable sound"}
+                    title={soundEnabled ? "Disable sound" : "Enable sound"}
+                >
+                    {soundEnabled ? "🔊 Sound On" : "🔇 Sound Off"}
                 </button>
             </div>
             <div className="coin-container">
