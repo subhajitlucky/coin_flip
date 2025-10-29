@@ -1,0 +1,26 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Coin Base -->
+  <defs>
+    <radialGradient id="coinGradient" cx="30%" cy="30%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFC700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="coinEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CC7000;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Coin Body -->
+  <circle cx="256" cy="256" r="240" fill="url(#coinGradient)" stroke="url(#coinEdge)" stroke-width="16"/>
+
+  <!-- Coin Inner Border -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="#FFD700" stroke-width="8" opacity="0.8"/>
+
+  <!-- Coin Symbol -->
+  <text x="256" y="290" font-family="Arial, sans-serif" font-size="180" font-weight="bold" text-anchor="middle" fill="#FF8C00">🪙</text>
+
+  <!-- Glossy Effect -->
+  <ellipse cx="200" cy="150" rx="120" ry="80" fill="white" opacity="0.2"/>
+</svg>
