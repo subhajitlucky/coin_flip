@@ -1,5 +1,77 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './coin.css';
+
+// Sound effects using Web Audio API
+const SoundManager = {
+    audioContext: null,
+    gainNode: null,
+
+    init() {
+        if (!this.audioContext) {
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            this.gainNode = this.audioContext.createGain();
+            this.gainNode.connect(this.audioContext.destination);
+        }
+    },
+
+    playSpinningSound() {
+        this.init();
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(400, this.audioContext.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(800, this.audioContext.currentTime + 2);
+
+        gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.05, this.audioContext.currentTime + 2);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + 2);
+
+        return oscillator;
+    },
+
+    playLandingSound() {
+        this.init();
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(800, this.audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(200, this.audioContext.currentTime + 0.3);
+
+        gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + 0.3);
+    },
+
+    playClickSound() {
+        this.init();
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(1000, this.audioContext.currentTime);
+
+        gainNode.gain.setValueAtTime(0.2, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + 0.1);
+    }
+};
 
 function Coin({ onFlipResult }) {
     const [side, setSide] = useState("heads");
@@ -9,6 +81,7 @@ function Coin({ onFlipResult }) {
     const [imagesLoaded, setImagesLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
     const [supportsWebP, setSupportsWebP] = useState(false);
+    const spinningSoundRef = useRef(null);
 
     // Check WebP support
     useEffect(() => {
@@ -87,19 +160,29 @@ function Coin({ onFlipResult }) {
             });
             return;
         }
-        
+
+        // Play click sound
+        SoundManager.playClickSound();
+
+        // Play spinning sound effect
+        spinningSoundRef.current = SoundManager.playSpinningSound();
+
         setSpinning(true);
         setTimeout(() => {
             const result = Math.random() > 0.5 ? "heads" : "tails";
             setSpinning(false);
+
+            // Play landing sound effect
+            SoundManager.playLandingSound();
+
             setSide(result);
-            
+
             // Notify the parent component about the result after state update
             setTimeout(() => {
                 if (onFlipResult) {
                     onFlipResult(result, prediction);
                 }
-                
+
                 // Reset prediction for next round
                 setPrediction(null);
             }, 100); // Small delay to ensure smooth state update
@@ -107,6 +190,7 @@ function Coin({ onFlipResult }) {
     }
     
     function makePrediction(choice) {
+        SoundManager.playClickSound();
         setPrediction(choice);
         setSide(choice);
     }
